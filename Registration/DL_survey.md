@@ -22,7 +22,7 @@ Method use CNN to learn a deep similarity metric, than the metric is inserted in
 
 Registration by DL start in this way, which __________
 
-### 1.1.1 unimodal 
+### 1.1.1 unimodal
 
 Deep similarity based methods can't outperform mannually crafted methods. However, it can complement information.
 
