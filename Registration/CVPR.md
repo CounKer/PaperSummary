@@ -8,3 +8,5 @@ Deformable Medical Image Registration](https://openaccess.thecvf.com/content_cvp
 [VoxelMorph: A Learning Framework
 for Deformable Medical
 Image Registration](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8633930)
+
+[A Cooperative Autoencoder for Population-Based Regularization of CNN Image Registration.](https://europepmc.org/article/PMC/7425577#R11)
