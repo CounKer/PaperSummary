@@ -60,6 +60,8 @@ work | method | modality | ROI | transform
     [ - ] for deformable registration, RL need handle it's high dimensional action space
     [ - ] also **SLOW** because of the iterative techniques
 
+---
+
 ## 2.Supervised transformation estimation
 
 Those methods not only measure the similarity, but alse estimate transformation by optimize it. They train an **end-to-end** model. which means, input image pairs, output the transformations in one step. 
@@ -68,13 +70,69 @@ Those methods not only measure the similarity, but alse estimate transformation 
 
 ### 2.1 Fully suppervised
 
-### 2.1.2 rigid
+### 2.1.1 rigid
 
-work | method |ground truth| modality | ROI 
++ grand truth: synthetic
+
+work | method | modality | ROI 
+---|---|---|---
+[2016 miao](https://ieeexplore.ieee.org/document/7393571)|hierarchical regression|2D/3D xray|
+[2018 chee](https://arxiv.org/pdf/1810.02583.pdf)|AIRNet|MR|brain
+[2018 salehi](https://arxiv.org/pdf/1803.05982.pdf)|resNet, bivariant geodesic distance|T1-T2MR|brain
+[2018 zhen](https://europepmc.org/article/PMC/PMC5767648)|Paiwide **domain adaptation** module|3Dxray-2Dxray|
+[2018 sloan](http://eprints.gla.ac.uk/156798/1/156798.pdf)|different level feature|uni+multi MR|brain
+
+### 2.1.2 deformable
+
++ grand truth: synthetic + real
+
+work | method | modality | ROI 
+---|---|---|---
+[2016 yang](https://arxiv.org/pdf/1607.02504.pdf), [2017](https://www.sciencedirect.com/science/article/am/pii/S1053811917305761)|FCN, Diffeomorphisms, momentum|2D/3D MR|brain
+[2017 yang](https://cdr.lib.unc.edu/downloads/q811kk416)|low-rank Hessian, Gauss distribution|T1-T2 MR|brain
+[2017Rohe](https://rd.springer.com/chapter/10.1007/978-3-319-66182-7_31)|Mesh segmentation|MR|cardiac
+[2018 Jun](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5965487/)|CNN|MR|abdominal
+[2017 sokooti](https://elastix.lumc.nl/marius/downloads/2017_c_MICCAIa.pdf)|DVFs(augment dataset), a multi-scaler CNN, late(~~early~~) fusion|CT|chest
+
+more sophisticated graund truth generation
+
+work | method | modality | ROI 
+---|---|---|---
+[2018 Eppenhof](https://pure.tue.nl/ws/portalfiles/portal/109972398/FINAL_VERSION.pdf)|multiscale random transform|CT|in-exhale lung
+[2017 Uzunova](http://www.imiweb.uni-luebeck.de/sites/default/files/paper333_web.pdf)|atatistical appearance models, FlowNet|MR|brain and cardiac
+[2018 ito](https://www.researchgate.net/publication/322619625_An_Automated_Method_for_Generating_Training_Sets_for_Deep_Learning_Based_Image_Registration)|CNN learn acceptable deform|MR|brain
+
+!!! tip ""
+    [ + ] real-time & robust
+    [ - ] depend on graund truth
+    [ - ] the differ bettwen synthetic graund truth and clinical data  
+
+### 2.2 Dual/weakly supervised 
+
++  Dual: grand truth + similarity quantify
++  weak: Using overlap of the ROI(segmentation of corresponding anatomical structure) to design loss
+
+### 2.2.1 Dual:
+
+1. framework of Dual:
+![](picture/2021-11-07-20-57-14.png)
+2. frmework of Dual using GAN:
+![](picture/2021-11-07-21-01-42.png)
+
+work | method | modality | ROI | transform
 ---|---|---|---|---
-[2016 miao](https://ieeexplore.ieee.org/document/7393571)|hierarchical regression|?|2D/3D xray|
-[2018 chee](https://arxiv.org/pdf/1810.02583.pdf)|AIRNet||MR|brain
-[2018 salehi](https://arxiv.org/pdf/1803.05982.pdf)|resNet, bivariant geodesic distance||T1-T2MR|brain
-[2018 zhen](https://europepmc.org/article/PMC/PMC5767648)|Paiwide **domain adaptation** module|synthetic-real|3Dxray-2Dxray|
-[2018 sloan](http://eprints.gla.ac.uk/156798/1/156798.pdf)|different level feature||uni+multi MR|brain
+[2019 Fan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6764428/)|gap-filling, coarse-to-fine guidence|MR|brain|deformable
+[2018 yan](https://link.springer.com/chapter/10.1007/978-3-030-00919-9_23)|GAN|MR-US||rigid
 
+### 2.2.2 weak:
+![](picture/2021-11-07-21-09-05.png)
+
+Tracking **Hu**'s works, about **MR-TRUS deformable** registration. The transformation field consists of affine transformation with 12 degrees and a dense deformable field.
+
+
+
+time | method 
+---|---
+[2018](https://arxiv.org/ftp/arxiv/papers/1711/1711.01666.pdf)| localNet & globalNet, loaclNet<-(T by gloNet +S)
+[2018 later](https://www.researchgate.net/publication/326194769_Weakly-Supervised_Convolutional_Neural_Networks_for_Multimodal_Image_Registration)| local & glo are combined in an end-to-end frame
+[2018 another](https://arxiv.org/ftp/arxiv/papers/1805/1805.10665.pdf)| adversarial loss term to force trans to be realistic
