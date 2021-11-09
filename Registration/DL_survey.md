@@ -124,15 +124,81 @@ work | method | modality | ROI | transform
 [2019 Fan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6764428/)|gap-filling, coarse-to-fine guidence|MR|brain|deformable
 [2018 yan](https://link.springer.com/chapter/10.1007/978-3-030-00919-9_23)|GAN|MR-US||rigid
 
+!!! tip ""
+    [ + ] metric reinforce graund truth
+    [ - ] still require graund truth
+
 ### 2.2.2 weak:
 ![](picture/2021-11-07-21-09-05.png)
 
 Tracking **Hu**'s works, about **MR-TRUS deformable** registration. The transformation field consists of affine transformation with 12 degrees and a dense deformable field.
 
-
+!!! tip ""
+    [ + ] avoid graund truth
+    [ - ] require manually annotated data(e.g. sementations) 
 
 time | method 
 ---|---
 [2018](https://arxiv.org/ftp/arxiv/papers/1711/1711.01666.pdf)| localNet & globalNet, loaclNet<-(T by gloNet +S)
 [2018 later](https://www.researchgate.net/publication/326194769_Weakly-Supervised_Convolutional_Neural_Networks_for_Multimodal_Image_Registration)| local & glo are combined in an end-to-end frame
 [2018 another](https://arxiv.org/ftp/arxiv/papers/1805/1805.10665.pdf)| adversarial loss term to force trans to be realistic
+
+## 3 unsupervised
+
+The difficult nature of acquisition of ground truth inspire unsupervised method. Spatial transformer network([STN](https://proceedings.neurips.cc/paper/2015/file/33ceb07bf4eeb3da587e268d663aba1a-Paper.pdf)) is one of the keys.
+
+### 3.1 Similarity metric-based
+
+![](picture/2021-11-09-13-02-31.png)
+
++ normal
+
+work | method | modality | ROI | transform
+---|---|---|---|---
+[2017 Neylon](https://jpneylon.github.io/docs/2017-05-05-neural-network-approach-for-fast-automated-quantification-of-dir.pdf)|similarity metric and TRE|CT||
+[2018 Dalca](https://arxiv.org/pdf/1805.04605.pdf)|Diffeomorphic integration, velocity field|||deformable
+[2019 Kuang](https://arxiv.org/pdf/1811.09243.pdf)|CNN+STN|T1MR|brain|deformable
+[2018 Ferrante](http://sinc.unl.edu.ar/sinc-publications/2018/FOGM18/sinc_FOGM18.pdf)|transfer learning-based approach|xray,cardiac cine||
+[101 Sun](https://link.springer.com/chapter/10.1007%2F978-3-030-01045-4_18)|intensity and gradient Smetric|MR/US||
+
++ Extensions
+
+remark | work | method | modality | ROI | transform
+---|---|---|---|---|---
+Multimodle|[2018 Cao](https://arxiv.org/ftp/arxiv/papers/1804/1804.10735.pdf)|intra modality similarity, "dual" supervised|CT-MR|pelvic|deformable
+inverse-consistent|[2018 zhang](https://arxiv.org/pdf/1809.03443.pdf)|ICNet,diffeo-, IC regularization|MR|brain|
+GAN|[2019 Mahapatra](https://arxiv.org/pdf/1805.02369.pdf)|density function, ||cardiac cine, retinal|deformable
+GAN|[2019 Fan](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6322551/)|assess quality of the alignment|MR|brain|deformable
+GAN, seg & regist|[2018 Mahapatra](https://www.researchgate.net/publication/334129714_Adversarial_optimization_for_joint_registration_and_segmentation_in_prostate_CT_radiotherapy)|(S, T, mask)-GAN->(deform field, W(T),segmentation)|X-ray|chest|defomable
+optimal parameterization|[2018CVPR Jiang](https://openaccess.thecvf.com/content_cvpr_2018/papers/Jiang_CNN_Driven_Sparse_CVPR_2018_paper.pdf)|CNN,multi-grid B-spline, L1-norm|CT|thoracic|deformable
+
+### 3.2 feature-based
+
+![](picture/2021-11-09-15-08-00.png)
+
+ work | method | modality | ROI 
+---|---|---|---
+[2017 Liu](https://www.labxing.com/files/lab_publications/7980-1600854021-eca997Ep.pdf)|PCANet, tensor-based MIND|CT,multi-MR|thoracic,brain
+[2018 krebs](https://arxiv.org/pdf/1804.07172.pdf)|stochastic latent space, conditional variational autoencoder|MR|brain,cardiac
+[2019 Kori](https://arxiv.org/pdf/1908.06213.pdf)|Dice score|2D T1-T2 MRs|brain
+
+!!! tip ""
+    [ - ] the absence of **multimodal case** is because similarity metric between differnt modalitis is hard to quantify.
+
+## 4 conclusion
+!!! attention common difficulties:
+    + robust similarity matric for multimodal
+    + the availability of large data set
+   
+    !!! info common resolution:
+        + application-specific similarity metrics
+        + Patchwise framework
+        + unsupervised approaches
+        + variational autoencoder
+
+---
+
+**_Supplement:_**
+
++ [domin-transform manifold learning(2017 Nature)](https://www.nmr.mgh.harvard.edu/lfi/pdf/AUTOMAP_Nature_2018.pdf)
++ [learn resampling and interpolation strategy(2019 ALi) ](https://arxiv.org/pdf/1908.06194.pdf)
